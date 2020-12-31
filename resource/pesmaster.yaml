@@ -1,0 +1,6 @@
+chrome:
+  remote-debugging-port: 9222
+cheat-engine:
+  title: .*메모장.*
+  found-index: 0
+  key-delay: 0.05

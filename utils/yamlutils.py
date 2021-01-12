@@ -1,4 +1,4 @@
-import yaml
+import yaml  # PyYAML
 from utils import jsonutils
 
 

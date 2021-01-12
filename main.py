@@ -175,12 +175,18 @@ def request_success(driver):
             jump, defensive_awareness, ball_winning, aggression, low_pass, lofted_pass, place_kicking, curl, speed,
             acceleration, physical_contact, stamina, gk_awareness, gk_catching, gk_clearing, gk_reflexes, gk_reach]
 
-    windowutils.activate(
-        activate_window_success_callback,
-        (lambda exception: print('cheat engine input - error: ' + exception.__name__ + ' / ' +
-                                 str(sys.exc_info()))),
-        title_re=CHEAT_ENGINE_WINDOW_TITLE,
-        found_index=CHEAT_ENGINE_WINDOW_INDEX)
+    # windowutils.activate(
+    #     activate_window_success_callback,
+    #     (lambda exception: print('cheat engine input - error: ' + exception.__name__ + ' / ' +
+    #                              str(sys.exc_info()))),
+    #     title_re=CHEAT_ENGINE_WINDOW_TITLE,
+    #     found_index=CHEAT_ENGINE_WINDOW_INDEX)
+    pyautogui.press("enter")
+    for key in KEYS:
+        # pyautogui.typewrite(key, interval=CHEAT_ENGINE_KEY_DELAY)
+        pyautogui.typewrite(key)
+        pyautogui.press("down")
+    pyautogui.press("enter")
 
 
 def activate_window_success_callback(app):

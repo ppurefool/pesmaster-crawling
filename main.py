@@ -1,26 +1,28 @@
 import sys
 import pyautogui
 
-from utils import stringutils, windowutils, requestutils, yamlutils
+# from utils import stringutils, windowutils, requestutils, yamlutils
+from utils import stringutils, requestutils, yamlutils
 
 global CHROME_REMOTE_DEBUGGING_PORT
-global CHEAT_ENGINE_KEY_DELAY
-global CHEAT_ENGINE_WINDOW_TITLE
-global CHEAT_ENGINE_WINDOW_INDEX
+# global CHEAT_ENGINE_KEY_DELAY
+# global CHEAT_ENGINE_WINDOW_TITLE
+# global CHEAT_ENGINE_WINDOW_INDEX
 global KEYS
 
 
 def main() -> int:
     print('pesmaster.yaml read - start')
     yamlutils.load("resource/pesmaster.yaml", yaml_load_success)
-    if not stringutils.is_not_blank([CHROME_REMOTE_DEBUGGING_PORT, CHEAT_ENGINE_KEY_DELAY, CHEAT_ENGINE_WINDOW_TITLE,
-                                     CHEAT_ENGINE_WINDOW_INDEX]):
+    # if not stringutils.is_not_blank([CHROME_REMOTE_DEBUGGING_PORT, CHEAT_ENGINE_KEY_DELAY, CHEAT_ENGINE_WINDOW_TITLE,
+    #                                  CHEAT_ENGINE_WINDOW_INDEX]):
+    if not stringutils.is_not_blank([CHROME_REMOTE_DEBUGGING_PORT]):
         print('pesmaster.yaml read - error')
         return 1
     print("pesmaster.yaml read - CHROME_REMOTE_DEBUGGING_PORT: " + str(CHROME_REMOTE_DEBUGGING_PORT))
-    print("pesmaster.yaml read - CHEAT_ENGINE_KEY_DELAY: " + str(CHEAT_ENGINE_KEY_DELAY))
-    print("pesmaster.yaml read - CHEAT_ENGINE_WINDOW_TITLE: " + CHEAT_ENGINE_WINDOW_TITLE)
-    print("pesmaster.yaml read - CHEAT_ENGINE_WINDOW_INDEX: " + str(CHEAT_ENGINE_WINDOW_INDEX))
+    # print("pesmaster.yaml read - CHEAT_ENGINE_KEY_DELAY: " + str(CHEAT_ENGINE_KEY_DELAY))
+    # print("pesmaster.yaml read - CHEAT_ENGINE_WINDOW_TITLE: " + CHEAT_ENGINE_WINDOW_TITLE)
+    # print("pesmaster.yaml read - CHEAT_ENGINE_WINDOW_INDEX: " + str(CHEAT_ENGINE_WINDOW_INDEX))
     print('pesmaster.yaml read - end')
 
     while 'OK' == pyautogui.confirm(text="확인 선택시 crawling; 취소 선택시 종료", title="알림"):
@@ -181,19 +183,28 @@ def request_success(driver):
     #                              str(sys.exc_info()))),
     #     title_re=CHEAT_ENGINE_WINDOW_TITLE,
     #     found_index=CHEAT_ENGINE_WINDOW_INDEX)
-    pyautogui.press("enter")
-    for key in KEYS:
+    index = 0
+    while index < len(KEYS):
+        pyautogui.press("enter")
         # pyautogui.typewrite(key, interval=CHEAT_ENGINE_KEY_DELAY)
-        pyautogui.typewrite(key)
+        pyautogui.typewrite(KEYS[index])
+        index += 1
+        if index >= len(KEYS):
+            pyautogui.press("enter")
+            break
         pyautogui.press("down")
-    pyautogui.press("enter")
-
-
-def activate_window_success_callback(app):
-    print('cheat engine input - start')
-    dlg = app.top_window()
-    dlg.Edit.type_keys("{ENTER}" + "{DOWN}^a".join(KEYS) + "{ENTER}", pause=CHEAT_ENGINE_KEY_DELAY)
-    print('cheat engine input - end')
+        pyautogui.press("enter")
+    index = 0
+    while index < 24:
+        pyautogui.press("up")
+        index += 1
+#
+#
+# def activate_window_success_callback(app):
+#     print('cheat engine input - start')
+#     dlg = app.top_window()
+#     dlg.Edit.type_keys("{ENTER}" + "{DOWN}^a".join(KEYS) + "{ENTER}", pause=CHEAT_ENGINE_KEY_DELAY)
+#     print('cheat engine input - end')
 
 
 def is_not_ability(value):
@@ -205,15 +216,15 @@ def is_not_ability(value):
 
 def yaml_load_success(json, json_utils):
     global CHROME_REMOTE_DEBUGGING_PORT
-    global CHEAT_ENGINE_KEY_DELAY
-    global CHEAT_ENGINE_WINDOW_TITLE
-    global CHEAT_ENGINE_WINDOW_INDEX
+    # global CHEAT_ENGINE_KEY_DELAY
+    # global CHEAT_ENGINE_WINDOW_TITLE
+    # global CHEAT_ENGINE_WINDOW_INDEX
 
     print(json)
     CHROME_REMOTE_DEBUGGING_PORT = json_utils.get_value(json, ["chrome", "remote-debugging-port"])
-    CHEAT_ENGINE_KEY_DELAY = json_utils.get_value(json, ["cheat-engine", "key-delay"])
-    CHEAT_ENGINE_WINDOW_TITLE = json_utils.get_value(json, ["cheat-engine", "title"])
-    CHEAT_ENGINE_WINDOW_INDEX = json_utils.get_value(json, ["cheat-engine", "found-index"])
+    # CHEAT_ENGINE_KEY_DELAY = json_utils.get_value(json, ["cheat-engine", "key-delay"])
+    # CHEAT_ENGINE_WINDOW_TITLE = json_utils.get_value(json, ["cheat-engine", "title"])
+    # CHEAT_ENGINE_WINDOW_INDEX = json_utils.get_value(json, ["cheat-engine", "found-index"])
 
 
 if __name__ == '__main__':

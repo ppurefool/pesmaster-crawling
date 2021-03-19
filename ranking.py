@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from datetime import datetime
 
 def main() -> int:
     positions = []
@@ -47,6 +47,7 @@ def main() -> int:
             print(urls[url_index] + " request - end")
             driver.quit()
 
+    print(datetime.today().strftime('%Y-%m-%d %H:%M:%S'))
     print('POSITION\tRANK\tNAME\tTEAM')
     for index in range(len(positions)):
         print(positions[index] + '\t' + str(ranks[index]) + '\t' + names[index] + '\t' + clubs[index])
